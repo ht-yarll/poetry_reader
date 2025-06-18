@@ -1,16 +1,22 @@
 import os
 import sys
 import pathlib
+from turtle import home
 
 from google.cloud import vision
-import spacy
-import contextualSpellCheck
 
+template = """---
+tags: minhas_poesias
+---
+
+# **{title}**
+{text}
+_{sign}_
+
+"""
 
 def test_read_text_from_image(image_folder):
     reader = vision.ImageAnnotatorClient()
-    nlp = spacy.load('pt_core_news_lg')
-    contextualSpellCheck.add_to_pipe(nlp)
 
     for img in pathlib.Path(image_folder).glob('*.jpg'):
         with open(img, "rb") as image_file:
@@ -24,11 +30,20 @@ def test_read_text_from_image(image_folder):
         text = response.full_text_annotation.text
 
         file_name = img.name.split('.')[0]
-                    
-        with open(f'data/txt/{file_name}.txt', 'w', encoding='utf-8') as txtfile:
-                for line in text.split('\n'):
-                    # text = nlp(line)
-                    txtfile.write(f'{line} \n')
+        home = os.path.expanduser("~")
+        file_path = os.path.join(home, f"Documents/cofre/Knoweldge/= Hub =/2 Areas/Poesia/{file_name}.md")
+
+        print('title', text.split('\n')[0])
+        print('verses', text.split('\n')[1:-1])
+        print('sign', text.split('\n')[-1])
+        poem = text.split('\n')
+        content = template.format(
+            title = poem[0],
+            text = '\n'.join(poem[1:-1]),
+            sign = poem[-1]
+        )
+        with open(file_path, 'w', encoding='utf-8') as mdfile:
+            mdfile.write(content)
 
 if __name__ == "__main__":
     test_read_text_from_image("data")
