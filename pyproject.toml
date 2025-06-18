@@ -3,7 +3,15 @@ name = "poetry-reader"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = "==3.11.9"
 dependencies = [
+    "autocorrect>=2.6.1",
     "google-cloud-vision>=3.10.2",
+    "pt-core-news-lg",
+    "setuptools>=80.9.0",
+    "spacy>=3.8.7",
+    "whl>=0.0.4",
 ]
+
+[tool.uv.sources]
+pt-core-news-lg = { url = "https://github.com/explosion/spacy-models/releases/download/pt_core_news_lg-3.8.0/pt_core_news_lg-3.8.0-py3-none-any.whl" }

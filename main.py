@@ -1,39 +1,34 @@
+import os
+import sys
+import pathlib
+
 from google.cloud import vision
-import csv
+import spacy
+import contextualSpellCheck
 
-def test_read_text_from_image(image_path):
+
+def test_read_text_from_image(image_folder):
     reader = vision.ImageAnnotatorClient()
+    nlp = spacy.load('pt_core_news_lg')
+    contextualSpellCheck.add_to_pipe(nlp)
 
-    with open(image_path, "rb") as image_file:
-        content = image_file.read()
+    for img in pathlib.Path(image_folder).glob('*.jpg'):
+        with open(img, "rb") as image_file:
+            content = image_file.read()
 
-    image = vision.Image(content=content)
-    response = reader.document_text_detection(image=image)
+        image = vision.Image(content=content)
+        image_context = vision.ImageContext(language_hints=["pt"])
 
-    verses = []
-    text = response.full_text_annotation.text
-    final_text = text.replace('&', '')
-    for page in response.full_text_annotation.pages:
-        for block in page.blocks:
-            for paragraph in block.paragraphs:
-                for word in paragraph.words:
-                    word_text = "".join([symbol.text for symbol in word.symbols])
-                    print(
-                        f"Word text: {word_text} "
-                        )
-                    verses.append(word_text)
-    print(verses)
-    
+        response = reader.document_text_detection(image=image, image_context=image_context)
 
-    print(f"Detected text:\n")
-    print(final_text)
+        text = response.full_text_annotation.text
 
-
-    with open(f'data/csvs/{verses[0]}_{verses[1]}.csv', 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        for line in text.split('\n'):
-            writer.writerow([line])
-
+        file_name = img.name.split('.')[0]
+                    
+        with open(f'data/txt/{file_name}.txt', 'w', encoding='utf-8') as txtfile:
+                for line in text.split('\n'):
+                    # text = nlp(line)
+                    txtfile.write(f'{line} \n')
 
 if __name__ == "__main__":
-    test_read_text_from_image("data/20250617_105514.jpg")
+    test_read_text_from_image("data")
