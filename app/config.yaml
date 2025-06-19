@@ -1,0 +1,11 @@
+template: |-
+  ---
+  tags: minhas_poesias
+  ---
+
+  # **{title}**
+  {text}
+  _{sign}_
+  ---
+
+md_target: Documents/cofre/Knoweldge/= Hub =/2 Areas/Poesia/{file_name}.md
