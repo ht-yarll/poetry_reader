@@ -27,13 +27,17 @@ def process_group(name_base, imgs):
 
         image = vision.Image(content=content)
         image_context = vision.ImageContext(language_hints=["pt"])
-        response = reader.document_text_detection(image=image, image_context=image_context)
+        response = reader.document_text_detection(
+            image=image, image_context=image_context
+        )
         text = response.full_text_annotation.text
         poem_lines = text.split("\n")
 
         if idx == 0:
             with open(file_path, "w", encoding="utf-8") as mdfile:
-                mdfile.write(template.format(title=file_name, verses="\n".join(poem_lines)))
+                mdfile.write(
+                    template.format(title=file_name, verses="\n".join(poem_lines))
+                )
                 mdfile.write("\n_Eu_")
                 print(f"🔷 Arquivo {file_path} criado com sucesso.")
         else:
@@ -51,7 +55,7 @@ def ocr_to_obsidian(image_folder):
 
         else:
             name_base = img.name.split(".")[0].strip()
-            
+
         poems[name_base].append(img)
 
     with ThreadPoolExecutor(max_workers=5) as executor:
