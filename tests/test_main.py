@@ -12,7 +12,10 @@ def test_images(tmp_path):
     img2 = tmp_path / "O Teste-2.jpg"
     img3 = tmp_path / "Outro-1.jpg"
     img4 = tmp_path / "sem-titulo-1.jpg"
-    for img in [img1, img2, img3, img4]:
+    img5 = tmp_path / "sem-titulo-2.jpg"
+    img6 = tmp_path / "O Teste-3.jpg"
+    img7 = tmp_path / "TestStrip .jpg"
+    for img in [img1, img2, img3, img4, img5, img6, img7]:
         img.write_bytes(b"fake image content")
     return tmp_path
 
@@ -39,3 +42,4 @@ def test_grouping_and_file_creation(mock_vision_client, test_images, monkeypatch
     assert "O Teste.md" in file_names
     assert "Outro.md" in file_names
     assert "sem-titulo-1.md" in file_names
+    assert "TestStrip.md" in file_names
