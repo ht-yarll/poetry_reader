@@ -36,7 +36,7 @@ module "project-services" {
 module "iam" {
   source = "./iam"
   project_id = var.project_id
-  cloudbuild_roles = var.cloudbuild_roles
+  ci_cd_roles = var.ci_cd_roles
 }
 
 module "gcs" {

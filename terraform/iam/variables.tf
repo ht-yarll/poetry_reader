@@ -1,4 +1,4 @@
-variable "cloudbuild_roles" {
+variable "ci_cd_roles" {
   description = "Roles to assign to the Cloud Build service account"
   type        = list(string)
 }

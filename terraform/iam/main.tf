@@ -1,4 +1,4 @@
-resource "google_service_account" "cloudbuild_sa" {
+resource "google_service_account" "ci_cd_runner_sa" {
   account_id   = "cloudbuild-sa"
   display_name = "cloudbuild-sa"
   description  = "Cloud build service account"
@@ -6,7 +6,7 @@ resource "google_service_account" "cloudbuild_sa" {
 
 
 resource "google_project_iam_member" "cloudbuild_roles" {
-  for_each = toset(var.cloudbuild_roles)
+  for_each = toset(var.ci_cd_roles)
 
   project = var.project_id
   role    = each.value

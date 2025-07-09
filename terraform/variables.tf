@@ -15,7 +15,7 @@ variable "project_number" {
 }
 
 #Cloudbuild
-variable "cloudbuild_roles" {
+variable "ci_cd_roles" {
   description = "Roles to assign to the Cloud Build service account"
   type        = list(string)
 }
@@ -34,7 +34,7 @@ variable "artifact_registry_repository" {
   type        = string
 }
 
-#Github variable
+#Github variables
 variable "github_owner" {
   description = "GitHub repository owner (user or organization)"
   type        = string
