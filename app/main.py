@@ -37,25 +37,28 @@ def process_group(name_base, imgs):
             with open(file_path, "w", encoding="utf-8") as mdfile:
                 mdfile.write(
                     template.format(title=file_name, verses="\n".join(poem_lines))
-                )
-                mdfile.write("\n_Eu_")
+                ) 
                 print(f"🔷 Arquivo {file_path} criado com sucesso.")
         else:
             with open(file_path, "a", encoding="utf-8") as mdfile:
                 mdfile.write("\n" + "\n".join(poem_lines))
                 print(f"🔹 Conteúdo adicionado em {file_path}.")
 
+        if idx == len(images) - 1:
+            with open(file_path, "a", encoding="utf-8") as mdfile:
+                mdfile.write("\n\n_-Eu-_")
+
 
 def ocr_to_obsidian(image_folder):
     path = sorted(pathlib.Path(image_folder).glob("*.jpg"))
     poems = defaultdict(list)
     for img in path:
-        if not img.name.startswith("sem-titulo"):
-            name_base = img.name.split("-")[0].strip()
-
+        striped_base_name = img.name.strip()
+        clean_file_name = os.path.splitext(striped_base_name)[0].strip()
+        if not clean_file_name.startswith("sem-titulo"):
+            name_base = clean_file_name.split("-")[0].strip()
         else:
-            name_base = img.name.split(".")[0].strip()
-
+            name_base = clean_file_name.split(".")[0].strip()
         poems[name_base].append(img)
 
     with ThreadPoolExecutor(max_workers=5) as executor:

@@ -8,3 +8,26 @@ wheels/
 
 # Virtual environments
 .venv
+
+# data
+data/
+
+# Terraform state
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Local variable definitions
+terraform.tfvars
+*.tfvars
+
+# Crash logs
+crash.log
+
+# Sensitive output plans
+*.tfplan
+
+# IDEs
+.vscode/
+.idea/
