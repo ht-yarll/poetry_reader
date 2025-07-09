@@ -14,7 +14,7 @@ locals {
 
 resource "google_bigquery_dataset" "datasets" {
     for_each = local.dataset_tiers
-    dataset_id                  = "${var.project_name}-${var.each.key}"
+    dataset_id                  = "${var.dataset_prefix}-${var.each.key}"
     friendly_name               = "poemas_ouro"
     description                 = "Dataset for poetry-reader data"
     location                    = var.region

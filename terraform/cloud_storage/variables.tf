@@ -1,14 +1,8 @@
 variable "location" {
+  description = "default location for the buckets"
   type = string
 }
-variable "buckets" {
-  description = "Buckets and respectives configs"
-    type = map(object({
-    location: optional(string)
-  }))
-}
-variable "medalion_structure" {
-  description = "It creates objects inside the current bucket for project"
-  default = ["gold/", "bronze/", "silver/"]
-  type = optional(list(string))
+variable "bkt_name" {
+  description = "bucket name"
+  type = string
 }

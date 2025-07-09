@@ -3,8 +3,8 @@ variable "region" {
   type = string
 }
 
-variable "project_name" {
-    description = "Project name on GCP"
+variable "dataset_prefix" {
+    description = "Prefix for named datasets, usually project name on GCP or related tables"
     type = string
 }
 
