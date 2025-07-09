@@ -51,11 +51,12 @@ resource "google_cloudbuild_trigger" "trigger_test" {
   
   name = "testing-before-merge-${each.key}"
   location = "global"
-
-  trigger_template {
-    branch_name = "master"
-    repo_name   = each.value.name
-  }
-
   filename = "test-code.cloudbuild.yaml"
+
+  repository_event_config {
+    repository = each.value.name
+    pull_request {
+      branch = "^master$"
+    }
+  }
 }

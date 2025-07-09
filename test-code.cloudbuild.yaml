@@ -1,0 +1,22 @@
+steps:
+  - name: python:3.11
+    id: Install dependencies
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        pip install --upgrade pip
+        pip install uv pytest pytest-mock
+        uv pip install .
+
+  - name: python:3.11
+    id: Run tests
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        pytest --maxfail=1 --disable-warnings --tb=short
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: 'E2_SMALL'

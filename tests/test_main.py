@@ -3,7 +3,7 @@ import pathlib
 import shutil
 import pytest
 from unittest.mock import patch, MagicMock
-from main import ocr_to_obsidian
+from app.main import ocr_to_obsidian
 
 @pytest.fixture
 def test_images(tmp_path):
