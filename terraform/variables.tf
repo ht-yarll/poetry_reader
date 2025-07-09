@@ -12,13 +12,8 @@ variable "project_number" {
 }
 
 # Bucket variables
-variable "bucket_name" {
-  default = "terraform"
-  type = string
-}
-variable "bucket_location" {
-  default = "southamerica-east1"
-  type = string
+variable "bucket_names" {
+  default = {"poetry-reader" = {location = "southamerica-east1"}} 
 }
 
 # Artifact Registry variables

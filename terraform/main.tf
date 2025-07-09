@@ -37,3 +37,9 @@ module "iam" {
   source = "./iam"
   project_id = var.project_id
 }
+
+module "gcs" {
+  source = "./cloud_storage"
+  buckets = "poetry-reader"
+  location = var.region
+}
