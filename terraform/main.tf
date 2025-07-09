@@ -36,10 +36,11 @@ module "project-services" {
 module "iam" {
   source = "./iam"
   project_id = var.project_id
+  cloudbuild_roles = var.cloudbuild_roles
 }
 
 module "gcs" {
   source = "./cloud_storage"
-  buckets = "poetry-reader"
+  buckets = var.buckets
   location = var.region
 }

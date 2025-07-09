@@ -1,43 +1,56 @@
+#Project
 variable "project_id" {
-  default = "poetry-reader-465416"
-  type = string
+  description = "GCP Project ID"
+  type        = string
 }
+
 variable "region" {
-  default = "southamerica-east1"
-  type = string
+  description = "Default region for resources (e.g. southamerica-east1)"
+  type        = string
 }
+
 variable "project_number" {
-  default = "60598995795"
-  type = string
+  description = "GCP Project number"
+  type        = string
 }
 
-# Bucket variables
-variable "bucket_names" {
-  default = {"poetry-reader" = {location = "southamerica-east1"}} 
+#Cloudbuild
+variable "cloudbuild_roles" {
+  description = "Roles to assign to the Cloud Build service account"
+  type        = list(string)
 }
 
-# Artifact Registry variables
+# Cloud Storage
+variable "buckets" {
+  description = "Map of bucket names to their configurations"
+  type = map(object({
+    location = string
+  }))
+}
+
+#Artifact Registry
 variable "artifact_registry_repository" {
-  default = "gcr-repository"
-  type = string
+  description = "Name of the Artifact Registry repository"
+  type        = string
 }
 
-# Cloud Build variables
+#Github variable
 variable "github_owner" {
-  default = "ht-yarll"
-  type = string
-}
-variable "github_repo" {
-  default = "poetry_reader"
-  type = string
+  description = "GitHub repository owner (user or organization)"
+  type        = string
 }
 
-variable "app_name" {
-  default = "poetryreader"
-  type = string
+variable "github_repo" {
+  description = "Name of the GitHub repository"
+  type        = string
 }
 
 variable "github_full_repo" {
-  default = "https://github.com/ht-yarll/poetry_reader"
-  type = string
+  description = "Full GitHub repository URL (e.g. https://github.com/user/repo)"
+  type        = string
+}
+
+variable "app_name" {
+  description = "Name of the application or service"
+  type        = string
 }

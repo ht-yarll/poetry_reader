@@ -12,8 +12,22 @@ wheels/
 # data
 data/
 
-# Terraform
-terraform/.terraform
-terraform/.terraform.lock.hcl
-terraform/terraform.tfstate
-terraform/terraform.tfstate.backup
+# Terraform state
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Local variable definitions
+terraform.tfvars
+*.tfvars
+
+# Crash logs
+crash.log
+
+# Sensitive output plans
+*.tfplan
+
+# IDEs
+.vscode/
+.idea/
