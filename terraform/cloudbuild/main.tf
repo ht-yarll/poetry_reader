@@ -36,12 +36,26 @@ resource "google_cloudbuildv2_connection" "connection_with_poetry_reader_repo" {
   }
 }
 
-# Repositories ----------------
-
+# Repositories Connect ----------------
 resource "google_cloudbuildv2_repository" "repos" {
   location = var.region
   for_each = toset(var.repositories)
   name = each.value
   parent_connection = google_cloudbuildv2_connection.connection_with_poetry_reader_repo
   remote_uri = "https://github.com/${var.github-user}/${each.value}"
+}
+
+# Triggers ---------
+resource "google_cloudbuild_trigger" "trigger_test" {
+  for_each = google_cloudbuildv2_repository.repos
+  
+  name = "testing-before-merge-${each.key}"
+  location = "global"
+
+  trigger_template {
+    branch_name = "master"
+    repo_name   = each.value.name
+  }
+
+  filename = "test-code.cloudbuild.yaml"
 }
