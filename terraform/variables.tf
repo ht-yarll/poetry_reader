@@ -3,17 +3,21 @@ variable "project_id" {
   type = string
 }
 variable "region" {
-  default = "latin"
+  default = "southamerica-east1"
+  type = string
+}
+variable "project_number" {
+  default = "60598995795"
   type = string
 }
 
 # Bucket variables
-variable "bucket_name_suzano" {
-  default = "tf-suzano-challenge"
+variable "bucket_name" {
+  default = "terraform"
   type = string
 }
 variable "bucket_location" {
-  default = "US"
+  default = "southamerica-east1"
   type = string
 }
 
@@ -34,7 +38,7 @@ variable "github_repo" {
 }
 
 variable "app_name" {
-  default = "poetry_reader"
+  default = "poetryreader"
   type = string
 }
 
