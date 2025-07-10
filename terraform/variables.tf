@@ -14,18 +14,27 @@ variable "project_number" {
   type        = string
 }
 
+#Big Query
+variable "dataset_prefix" {
+  description = "Prefix for dataset"
+  type = string
+}
+
+variable "bq_roles" {
+  description = "List of IAM roles for BigQuery access"
+  type        = list(string)
+}
+
 #Cloudbuild
-variable "cloudbuild_roles" {
+variable "ci_cd_roles" {
   description = "Roles to assign to the Cloud Build service account"
   type        = list(string)
 }
 
 # Cloud Storage
-variable "buckets" {
-  description = "Map of bucket names to their configurations"
-  type = map(object({
-    location = string
-  }))
+variable "main_bkt_name" {
+  description = "Bucket name"
+  type = string
 }
 
 #Artifact Registry
@@ -34,7 +43,7 @@ variable "artifact_registry_repository" {
   type        = string
 }
 
-#Github variable
+#Github variables
 variable "github_owner" {
   description = "GitHub repository owner (user or organization)"
   type        = string
@@ -48,6 +57,18 @@ variable "github_repo" {
 variable "github_full_repo" {
   description = "Full GitHub repository URL (e.g. https://github.com/user/repo)"
   type        = string
+}
+
+variable "github_personal_access_token" {
+  type      = string
+  sensitive = true
+  description = "Personal GitHub token to authenticate CI/CD"
+}
+
+
+variable "app_installation_id" {
+  description = "Instalation Id"
+  type = number
 }
 
 variable "app_name" {

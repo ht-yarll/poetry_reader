@@ -1,28 +1,18 @@
+# Providers --------------------------------------------------------------------
 provider "google" {
-  credentials = file("./credentials/suzano-challenge.json")
   project     = var.project_id
   region      = var.region
 }
 
 provider "google-beta" {
-  credentials = file("./credentials/suzano-challenge.json")
   project     = var.project_id
   region      = var.region
 }
 
-# Modules ------------------------------------------------
-
-module "project-services" {
-  source                      = "terraform-google-modules/project-factory/google//modules/project_services"
-  version                     = "17.0.0"
-  disable_services_on_destroy = false
-
-  project_id  = var.project_id
-  enable_apis = true
-
-  activate_apis = [
+# Resources --------------------------------------------------------------------
+resource "google_project_service" "enable_apis" {
+  for_each = toset([
     "cloudresourcemanager.googleapis.com",
-    "serviceusage.googleapis.com",
     "iam.googleapis.com",
     "artifactregistry.googleapis.com",
     "run.googleapis.com",
@@ -30,17 +20,46 @@ module "project-services" {
     "servicemanagement.googleapis.com",
     "compute.googleapis.com",
     "bigquery.googleapis.com"
-  ]
+  ])
+  project             = var.project_id
+  service             = each.key
+  disable_on_destroy  = false
 }
 
+# Modules ----------------------------------------------------------------------
 module "iam" {
   source = "./iam"
   project_id = var.project_id
-  cloudbuild_roles = var.cloudbuild_roles
+  ci_cd_roles = var.ci_cd_roles
+  bq_roles = var.bq_roles
 }
 
 module "gcs" {
   source = "./cloud_storage"
-  buckets = var.buckets
+  main_bkt_name = var.main_bkt_name
   location = var.region
+
+  depends_on = [module.iam]
 }
+
+module "cloudbuild" {
+  source = "./cloudbuild"
+  github_user = var.github_owner
+  github_personal_access_token = var.github_personal_access_token
+  repository = var.github_repo
+  project_number = var.project_number
+  app_installation_id = var.app_installation_id
+  region = var.region
+
+  depends_on = [module.iam]
+}
+
+module "bigquery" {
+  source = "./bigquery"
+  bq_sa_email = module.iam.bq_infra_sa_email
+  dataset_prefix = var.dataset_prefix
+  region = var.region
+  
+  depends_on = [module.iam]
+}
+
