@@ -9,7 +9,7 @@ resource "google_secret_manager_secret" "github-token-secret" {
 
 resource "google_secret_manager_secret_version" "github-token-secret-version" {
   secret = google_secret_manager_secret.github-token-secret.id
-  secret_data = file("my-github-token.txt")
+  secret_data = var.github_token
 }
 
 data "google_iam_policy" "p4sa-secretAccessor" {
@@ -39,10 +39,9 @@ resource "google_cloudbuildv2_connection" "connection_with_poetry_reader_repo" {
 # Repositories Connect ----------------
 resource "google_cloudbuildv2_repository" "repos" {
   location = var.region
-  for_each = toset(var.repositories)
-  name = each.value
-  parent_connection = google_cloudbuildv2_connection.connection_with_poetry_reader_repo
-  remote_uri = "https://github.com/${var.github-user}/${each.value}"
+  name = var.repository
+  parent_connection = google_cloudbuildv2_connection.connection_with_poetry_reader_repo.id
+  remote_uri = "https://github.com/${var.github_user}/${var.repository}"
 }
 
 # Triggers ---------
@@ -54,7 +53,7 @@ resource "google_cloudbuild_trigger" "trigger_test" {
   filename = "test-code.cloudbuild.yaml"
 
   repository_event_config {
-    repository = each.value.name
+    repository = var.repository
     pull_request {
       branch = "^master$"
     }

@@ -8,4 +8,7 @@ variable "dataset_prefix" {
     type = string
 }
 
-
+variable "bq_sa_email" {
+  type        = string
+  description = "Email of BQ service account"
+}
