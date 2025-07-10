@@ -1,7 +1,3 @@
-locals {
-  module_dependencies = [module.iam]
-}
-
 # Providers --------------------------------------------------------------------
 provider "google" {
   project     = var.project_id
@@ -43,7 +39,7 @@ module "gcs" {
   main_bkt_name = var.main_bkt_name
   location = var.region
 
-  depends_on = locals.module_dependencies
+  depends_on = [module.iam]
 }
 
 module "cloudbuild" {
@@ -55,7 +51,7 @@ module "cloudbuild" {
   app_installation_id = var.app_installation_id
   region = var.region
 
-  depends_on = locals.module_dependencies
+  depends_on = [module.iam]
 }
 
 module "bigquery" {
@@ -64,5 +60,6 @@ module "bigquery" {
   dataset_prefix = var.dataset_prefix
   region = var.region
   
-  depends_on = locals.module_dependencies
+  depends_on = [module.iam]
 }
+
