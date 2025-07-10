@@ -40,7 +40,7 @@ module "iam" {
 
 module "gcs" {
   source = "./cloud_storage"
-  bkt_name = var.bkt_name
+  main_bkt_name = var.main_bkt_name
   location = var.region
 
   depends_on = locals.module_dependencies
@@ -49,7 +49,7 @@ module "gcs" {
 module "cloudbuild" {
   source = "./cloudbuild"
   github_user = var.github_owner
-  github_token = var.github_token
+  github_personal_access_token = var.github_personal_access_token
   repository = var.github_repo
   project_number = var.project_number
   app_installation_id = var.app_installation_id

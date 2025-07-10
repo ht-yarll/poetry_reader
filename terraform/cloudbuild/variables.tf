@@ -24,7 +24,7 @@ variable "repository" {
   type = string
 }
 
-variable "github_token" {
+variable "github_personal_access_token" {
   type        = string
   sensitive   = true
   description = "GitHub personal access token used to authenticate Cloud Build connection"

@@ -32,7 +32,7 @@ variable "ci_cd_roles" {
 }
 
 # Cloud Storage
-variable "bkt_name" {
+variable "main_bkt_name" {
   description = "Bucket name"
   type = string
 }
@@ -59,7 +59,7 @@ variable "github_full_repo" {
   type        = string
 }
 
-variable "github_token" {
+variable "github_personal_access_token" {
   type      = string
   sensitive = true
   description = "Personal GitHub token to authenticate CI/CD"
